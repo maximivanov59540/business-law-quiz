@@ -1,0 +1,540 @@
+/* Квиз по предпринимательскому праву — оформление.
+   Размеры заданы через clamp(): один и тот же файл читается и с телефона, и с проектора. */
+
+:root {
+  --bg: #11162a;
+  --bg-glow-1: #1d2a55;
+  --bg-glow-2: #2a1f46;
+  --panel: #1a2140;
+  --panel-2: #212a4e;
+  --line: #2f3a63;
+  --text: #eef1fa;
+  --muted: #98a2c4;
+  --accent: #f2b53c;
+  --accent-ink: #2a1c00;
+  --ok: #34d399;
+  --ok-soft: rgba(52, 211, 153, .16);
+  --bad: #fb6a80;
+  --bad-soft: rgba(251, 106, 128, .15);
+  --shadow: 0 18px 50px rgba(0, 0, 0, .45);
+  --radius: 18px;
+}
+
+:root[data-theme="light"] {
+  --bg: #eef1f8;
+  --bg-glow-1: #dfe6fb;
+  --bg-glow-2: #f3e7fb;
+  --panel: #ffffff;
+  --panel-2: #f4f6fc;
+  --line: #d6ddef;
+  --text: #171c33;
+  --muted: #5d688c;
+  --accent: #c8860a;
+  --accent-ink: #fff8e8;
+  --ok: #0f9d6b;
+  --ok-soft: rgba(15, 157, 107, .13);
+  --bad: #d43a55;
+  --bad-soft: rgba(212, 58, 85, .11);
+  --shadow: 0 16px 40px rgba(28, 40, 90, .14);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Базовый размер задаём именно на html: от него считаются все rem,
+   иначе на проекторе текст упирается в потолок в 16px за rem. */
+html {
+  font-size: clamp(16px, 1.15vw, 22px);
+}
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(1100px 620px at 12% -8%, var(--bg-glow-1), transparent 62%),
+    radial-gradient(900px 560px at 92% 4%, var(--bg-glow-2), transparent 60%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1;
+  width: min(1500px, 100%);
+  margin: 0 auto;
+  padding: clamp(14px, 2vw, 30px) clamp(16px, 2.6vw, 40px) clamp(16px, 2vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.6vw, 22px);
+}
+
+.screen--center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------- Типографика ---------- */
+
+h1, h2, h3 { margin: 0; line-height: 1.18; font-weight: 700; }
+h1 { font-size: clamp(1.7rem, 3.4vw, 3.1rem); letter-spacing: -.02em; }
+h2 { font-size: clamp(1.3rem, 2.2vw, 2.1rem); letter-spacing: -.01em; }
+p { margin: 0; }
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: clamp(.68rem, .82vw, .84rem);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.lead { font-size: clamp(1rem, 1.35vw, 1.3rem); color: var(--muted); }
+
+/* ---------- Кнопки ---------- */
+
+.btn {
+  font: inherit;
+  font-weight: 650;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .62em 1.5em;
+  cursor: pointer;
+  transition: transform .12s ease, background .15s ease, border-color .15s ease;
+}
+
+.btn:hover { background: var(--line); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn--primary:hover { filter: brightness(1.07); background: var(--accent); }
+
+.btn--ghost { background: transparent; }
+
+.btn--sm { padding: .42em 1em; font-size: .88em; }
+
+/* ---------- Пароль ---------- */
+
+.gate {
+  width: min(620px, 100%);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(26px, 3.4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.gate__seal { font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; }
+
+.gate__form { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: center; }
+
+.gate__row { display: flex; gap: 10px; width: min(420px, 100%); }
+
+.gate__input {
+  flex: 1;
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: .66em .9em;
+  text-align: center;
+  letter-spacing: .18em;
+}
+
+.gate__input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.gate__error { color: var(--bad); font-weight: 650; }
+
+.shake { animation: shake .34s ease; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  45% { transform: translateX(8px); }
+  70% { transform: translateX(-5px); }
+}
+
+/* ---------- Команды ---------- */
+
+.teams-setup { width: min(760px, 100%); display: flex; flex-direction: column; gap: 16px; }
+
+.teams-setup__list { display: flex; flex-direction: column; gap: 10px; }
+
+.team-row { display: flex; gap: 10px; align-items: center; }
+
+.team-row__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--team-color, var(--accent));
+}
+
+.team-row__input {
+  flex: 1;
+  font: inherit;
+  color: var(--text);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: .58em .9em;
+}
+
+.team-row__input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.teams-setup__actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+/* ---------- Правила ---------- */
+
+.rules {
+  width: min(900px, 100%);
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(20px, 2.6vw, 36px);
+  box-shadow: var(--shadow);
+}
+
+.rules ol { margin: .8em 0 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: .55em; }
+.rules li::marker { color: var(--accent); font-weight: 700; }
+
+/* ---------- Верхняя строка вопроса ---------- */
+
+.topbar { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.topbar__section { font-weight: 650; color: var(--muted); font-size: clamp(.86rem, 1.15vw, 1.1rem); }
+.topbar__count { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.topbar__count b { color: var(--text); font-size: 1.15em; }
+
+.progress {
+  height: 6px;
+  border-radius: 99px;
+  background: var(--panel-2);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.progress__bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #ef7d4d);
+  transition: width .45s cubic-bezier(.22, .9, .3, 1);
+}
+
+/* ---------- Табло команд ---------- */
+
+.scoreboard { display: flex; gap: clamp(8px, 1vw, 14px); flex-wrap: wrap; }
+
+.team {
+  flex: 1 1 0;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: .5em .85em;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.team--turn {
+  border-color: var(--team-color, var(--accent));
+  background: var(--panel-2);
+  box-shadow: 0 0 0 1px var(--team-color, var(--accent)) inset;
+  transform: translateY(-2px);
+}
+
+.team--out { opacity: .45; }
+
+.team__dot { width: 12px; height: 12px; border-radius: 50%; flex: none; background: var(--team-color, var(--accent)); }
+.team__name { flex: 1; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.team__score { font-variant-numeric: tabular-nums; font-weight: 750; font-size: 1.25em; }
+.team__badge {
+  font-size: .68em;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-weight: 750;
+  color: var(--team-color, var(--accent));
+}
+
+/* ---------- Вопрос ---------- */
+
+/* justify-content: center — чтобы на проекторе вопрос стоял в середине экрана,
+   а не жался к верхнему краю, оставляя внизу пустоту. */
+.question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(12px, 1.5vw, 20px);
+  flex: 1;
+}
+
+.question__turn {
+  font-weight: 650;
+  color: var(--muted);
+  font-size: clamp(.9rem, 1.2vw, 1.15rem);
+}
+
+.question__turn b { color: var(--turn-color, var(--accent)); }
+
+.question__text {
+  font-size: clamp(1.25rem, 2.45vw, 2.35rem);
+  font-weight: 650;
+  line-height: 1.28;
+  letter-spacing: -.01em;
+}
+
+.options { display: grid; gap: clamp(8px, 1vw, 13px); }
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(10px, 1.2vw, 16px);
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: clamp(1rem, 1.55vw, 1.5rem);
+  line-height: 1.34;
+  color: var(--text);
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(.6em, .9vw, .85em) clamp(.7em, 1.1vw, 1.05em);
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .12s ease, opacity .25s ease;
+}
+
+.option:hover:not(:disabled) { border-color: var(--accent); transform: translateX(3px); }
+.option:disabled { cursor: default; }
+
+.option__letter {
+  flex: none;
+  width: 1.75em;
+  height: 1.75em;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  font-weight: 750;
+  font-size: .92em;
+}
+
+/* Погашенный вариант — тот, который команда назвала и промахнулась. */
+.option--dead,
+.option--wrong {
+  text-decoration: line-through;
+  text-decoration-color: var(--bad);
+  text-decoration-thickness: 2px;
+}
+
+.option--dead { opacity: .34; }
+
+/* Вариант, которого никто не называл: просто приглушаем, не зачёркиваем. */
+.option--muted { opacity: .42; }
+
+.option--correct {
+  border-color: var(--ok);
+  background: var(--ok-soft);
+  animation: pop .34s ease;
+}
+
+.option--correct .option__letter { background: var(--ok); border-color: var(--ok); color: #05261a; }
+
+.option--wrong { border-color: var(--bad); background: var(--bad-soft); }
+.option--wrong .option__letter { background: var(--bad); border-color: var(--bad); color: #2d0710; }
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.018); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- Разбор ---------- */
+
+.reveal {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--verdict-color, var(--accent));
+  border-radius: 14px;
+  padding: clamp(.75em, 1.1vw, 1.1em) clamp(.9em, 1.3vw, 1.3em);
+  animation: slide-up .3s ease;
+}
+
+.reveal__verdict {
+  font-weight: 750;
+  color: var(--verdict-color, var(--accent));
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+}
+
+.reveal__text { font-size: clamp(.95rem, 1.35vw, 1.3rem); line-height: 1.45; }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Нижняя панель ---------- */
+
+.footbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: clamp(.76rem, .92vw, .92rem);
+}
+
+.footbar__keys { display: flex; gap: clamp(8px, 1vw, 16px); flex-wrap: wrap; }
+
+kbd {
+  font: inherit;
+  font-size: .92em;
+  font-weight: 700;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  padding: .06em .45em;
+  color: var(--text);
+}
+
+.footbar__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ---------- Итоги ---------- */
+
+.final { width: min(1100px, 100%); display: flex; flex-direction: column; gap: clamp(14px, 1.8vw, 24px); }
+
+.winner {
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(20px, 2.6vw, 38px);
+  box-shadow: var(--shadow);
+}
+
+.winner__cup { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; }
+.winner__name { color: var(--accent); }
+
+.standings { display: flex; flex-direction: column; gap: 8px; }
+
+.standing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: .55em .9em;
+}
+
+.standing__place { width: 2em; font-weight: 750; color: var(--muted); font-variant-numeric: tabular-nums; }
+.standing__name { flex: 1; font-weight: 650; }
+.standing__score { font-weight: 750; font-variant-numeric: tabular-nums; font-size: 1.2em; }
+
+.misses {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(16px, 2vw, 28px);
+  text-align: left;
+}
+
+.misses__list { display: flex; flex-direction: column; gap: 14px; margin-top: 12px; }
+
+.miss { border-left: 3px solid var(--bad); padding-left: 12px; }
+.miss__q { font-weight: 650; }
+.miss__a { color: var(--ok); margin-top: .18em; }
+.miss__why { color: var(--muted); margin-top: .18em; font-size: .94em; }
+
+/* ---------- Всплывающие ---------- */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: .55em 1.3em;
+  box-shadow: var(--shadow);
+  font-weight: 650;
+  z-index: 40;
+  animation: slide-up .22s ease;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 9, 20, .72);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 50;
+}
+
+.overlay__box {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(20px, 2.6vw, 34px);
+  width: min(620px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.overlay__actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.keys-table { display: grid; grid-template-columns: auto 1fr; gap: .5em 1.1em; align-items: baseline; }
+.keys-table div:nth-child(odd) { text-align: right; }
+.keys-table div:nth-child(even) { color: var(--muted); }
+
+/* ---------- Экран ---------- */
+
+@media (max-width: 720px) {
+  .topbar__count { font-size: .9rem; }
+  .team { min-width: 0; flex-basis: calc(50% - 6px); }
+  .footbar__keys { display: none; }
+}
+
+@media (min-width: 1100px) {
+  .options { grid-template-columns: 1fr 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
