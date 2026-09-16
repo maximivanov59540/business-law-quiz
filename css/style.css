@@ -60,6 +60,9 @@ body {
   color: var(--text);
   font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.5;
+  /* Юридические термины бывают длиннее своего блока («предпринимательской»).
+     Наследуется вниз, поэтому страхует все экраны разом. */
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -87,7 +90,7 @@ body {
 
 /* ---------- Типографика ---------- */
 
-h1, h2, h3 { margin: 0; line-height: 1.18; font-weight: 700; }
+h1, h2, h3 { margin: 0; line-height: 1.18; font-weight: 700; hyphens: auto; }
 h1 { font-size: clamp(1.7rem, 3.4vw, 3.1rem); letter-spacing: -.02em; }
 h2 { font-size: clamp(1.3rem, 2.2vw, 2.1rem); letter-spacing: -.01em; }
 p { margin: 0; }
@@ -134,7 +137,8 @@ p { margin: 0; }
 /* ---------- Пароль ---------- */
 
 .gate {
-  width: min(620px, 100%);
+  width: min(720px, 100%);
+  container-type: inline-size;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -147,6 +151,14 @@ p { margin: 0; }
 }
 
 .gate__seal { font-size: clamp(2.6rem, 5vw, 4rem); line-height: 1; }
+
+/* Ширина карточки ограничена, поэтому её заголовок считаем от самой карточки,
+   а не от ширины окна: иначе на широком мониторе он перерастает контейнер. */
+.gate h1 { font-size: clamp(1.45rem, 2.9vw, 2.3rem); }
+
+@supports (font-size: 1cqi) {
+  .gate h1 { font-size: clamp(1.45rem, 7cqi, 2.6rem); }
+}
 
 .gate__form { display: flex; flex-direction: column; gap: 12px; width: 100%; align-items: center; }
 
